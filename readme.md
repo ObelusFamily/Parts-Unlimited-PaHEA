@@ -1,6 +1,27 @@
 # Welcome to the Parts Unlimited repo
 
-To start the app use: `yarn start`, it'll start both the backend and the frontend.
+## Pre-requisites
+
+Ensure that the following packages are installed:
+
+- node (v15.14.0)
+- yarn (v1.22.11)
+
+## Install dependencies
+
+To install all dependencies run the following in the project root:
+
+```
+$ yarn bootstrap
+```
+
+## Run the backend and frontend
+
+Start both the backend and the frontend by running the following:
+
+```
+$ yarn start
+```
 
 Please find more info about each part in the relevant Readme file ([frontend](frontend/readme.md) and [backend](backend/README.md)).
 

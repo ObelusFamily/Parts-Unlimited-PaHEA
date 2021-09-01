@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "newman": "^3.8.2",
-    "nodemon": "^1.11.0"
+    "nodemon": "^2.0.12"
   }
 }
