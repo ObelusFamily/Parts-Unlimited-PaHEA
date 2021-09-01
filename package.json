@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "bootstrap": "yarn install && concurrently --kill-others \"cd frontend && yarn install\" \"cd backend && yarn install\"",
     "start": "concurrently --kill-others \"cd frontend && yarn start\" \"cd backend && yarn start\""
   },
   "keywords": [],
