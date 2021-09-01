@@ -2,11 +2,29 @@
 
 The Parts Unlimited backend is Node web app written with [Express](https://expressjs.com/)
 
-## Getting started
+## Pre-requisites
 
-To start the app use: `yarn dev` from the backend directory.
+- MongoDB (v5.0.2)
 
-Make sure your DB is up and running.
+## Set up environment variables
+
+Clone `.env.template` to `.env`:
+
+```
+$ cp .env.template .env
+```
+
+Then update the environment variables in `.env`.
+
+## Run the app
+
+Make sure that MongoDB is up and running locally.
+
+Start the app in development mode:
+
+```
+$ yarn dev
+```
 
 ## Dependencies
 
