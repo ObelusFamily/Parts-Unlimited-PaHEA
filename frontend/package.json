@@ -8,6 +8,7 @@
   "dependencies": {
     "bootstrap": "^4.6.0",
     "history": "^4.6.3",
+    "lodash": "^4.17.21",
     "marked": "^0.3.6",
     "node-sass": "^5.0.0",
     "prop-types": "^15.5.10",

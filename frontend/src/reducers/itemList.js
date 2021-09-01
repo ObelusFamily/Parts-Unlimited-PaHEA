@@ -1,3 +1,4 @@
+import defaultsDeep from "lodash/defaultsDeep";
 import {
   ITEM_FAVORITED,
   ITEM_UNFAVORITED,
@@ -9,32 +10,32 @@ import {
   PROFILE_PAGE_LOADED,
   PROFILE_PAGE_UNLOADED,
   PROFILE_FAVORITES_PAGE_LOADED,
-  PROFILE_FAVORITES_PAGE_UNLOADED
+  PROFILE_FAVORITES_PAGE_UNLOADED,
 } from "../constants/actionTypes";
 
-export default (state = {}, action) => {
+const reducer = (state = {}, action) => {
   switch (action.type) {
     case ITEM_FAVORITED:
     case ITEM_UNFAVORITED:
       return {
         ...state,
-        items: state.items.map(item => {
+        items: state.items.map((item) => {
           if (item.slug === action.payload.item.slug) {
             return {
               ...item,
               favorited: action.payload.item.favorited,
-              favoritesCount: action.payload.item.favoritesCount
+              favoritesCount: action.payload.item.favoritesCount,
             };
           }
           return item;
-        })
+        }),
       };
     case SET_PAGE:
       return {
         ...state,
         items: action.payload.items,
         itemsCount: action.payload.itemsCount,
-        currentPage: action.page
+        currentPage: action.page,
       };
     case APPLY_TAG_FILTER:
       return {
@@ -44,9 +45,10 @@ export default (state = {}, action) => {
         itemsCount: action.payload.itemsCount,
         tab: null,
         tag: action.tag,
-        currentPage: 0
+        currentPage: 0,
       };
     case HOME_PAGE_LOADED:
+      console.log(action.payload);
       return {
         ...state,
         pager: action.pager,
@@ -54,7 +56,7 @@ export default (state = {}, action) => {
         items: action.payload[1].items,
         itemsCount: action.payload[1].itemsCount,
         currentPage: 0,
-        tab: action.tab
+        tab: action.tab,
       };
     case HOME_PAGE_UNLOADED:
       return {};
@@ -66,7 +68,7 @@ export default (state = {}, action) => {
         itemsCount: action.payload.itemsCount,
         tab: action.tab,
         currentPage: 0,
-        tag: null
+        tag: null,
       };
     case PROFILE_PAGE_LOADED:
     case PROFILE_FAVORITES_PAGE_LOADED:
@@ -75,7 +77,7 @@ export default (state = {}, action) => {
         pager: action.pager,
         items: action.payload[1].items,
         itemsCount: action.payload[1].itemsCount,
-        currentPage: 0
+        currentPage: 0,
       };
     case PROFILE_PAGE_UNLOADED:
     case PROFILE_FAVORITES_PAGE_UNLOADED:
@@ -84,3 +86,30 @@ export default (state = {}, action) => {
       return state;
   }
 };
+
+export default (state, action) => {
+  const nextState = reducer(state, action);
+  return {
+    ...nextState,
+    items: nextState.items?.map(fillMissingItemProperties),
+  };
+};
+
+const defaultSeller = Object.freeze({
+  username: "anon",
+  image: "/placeholder.png",
+});
+
+const defaultItem = Object.freeze({
+  title: "Untitled",
+  description: "No description.",
+  image: "/placeholder.png",
+  favoritesCount: 0,
+  comments: [],
+  tagList: [],
+  seller: defaultSeller,
+});
+
+function fillMissingItemProperties(item) {
+  return defaultsDeep(item, defaultItem);
+}
