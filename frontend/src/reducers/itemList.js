@@ -97,15 +97,13 @@ export default (state, action) => {
 
 const defaultSeller = Object.freeze({
   username: "anon",
-  image:
-    "https://camo.githubusercontent.com/e356c2886c2c8e3dd4849358a36d3eab80b052a833dae03193ebb311899590d3/68747470733a2f2f77696c636f2d656e67696e652e6865726f6b756170702e636f6d2f7265736f75726365732f7175657374732f71305f706c616365686f6c6465722e706e67",
+  image: "/placeholder.png",
 });
 
 const defaultItem = Object.freeze({
   title: "Untitled",
   description: "No description.",
-  image:
-    "https://camo.githubusercontent.com/e356c2886c2c8e3dd4849358a36d3eab80b052a833dae03193ebb311899590d3/68747470733a2f2f77696c636f2d656e67696e652e6865726f6b756170702e636f6d2f7265736f75726365732f7175657374732f71305f706c616365686f6c6465722e706e67",
+  image: "/placeholder.png",
   favoritesCount: 0,
   comments: [],
   tagList: [],
