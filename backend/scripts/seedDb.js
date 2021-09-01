@@ -3,31 +3,30 @@ require("../models/User");
 require("../models/Item");
 require("../models/Comment");
 const mongoose = require("mongoose");
+const Comment = mongoose.model("Comment");
 const Item = mongoose.model("Item");
 const { createUser } = require("../services/users");
 
-const users = [
-  { username: "john", email: "john@email.com", password: "password" },
-  { username: "lisa", email: "lisa@email.com", password: "password" },
-  { username: "abcd", email: "abcd@email.com", password: "password" },
-  { username: "bcde", email: "bcde@email.com", password: "password" },
-  { username: "cdef", email: "cdef@email.com", password: "password" },
-  { username: "defg", email: "defg@email.com", password: "password" },
-  { username: "efgh", email: "efgh@email.com", password: "password" },
-  { username: "fghi", email: "fghi@email.com", password: "password" },
-  { username: "ghij", email: "ghij@email.com", password: "password" },
-  { username: "hijk", email: "hijk@email.com", password: "password" },
-];
+function generateEntities(createEntity, count = 100) {
+  let entities = [];
+  for (let i = 0; i < count; i++) {
+    entities.push(createEntity(i));
+  }
+  return entities;
+}
 
-const items = [
-  { slug: "ItemA" },
-  { slug: "ItemB" },
-  { slug: "ItemC" },
-  { slug: "ItemD" },
-  { slug: "ItemE" },
-  { slug: "ItemF" },
-  { slug: "ItemG" },
-];
+function createUserPayload(number) {
+  const username = `user${number}`;
+  return { username, email: `${username}@mail.com`, password: "password" };
+}
+
+function createItemPayload(number) {
+  return { slug: `item${number}` };
+}
+
+function createCommentPayload(number) {
+  return { body: `body${number}` };
+}
 
 async function seedDb() {
   const dbConnection = await connectDb();
@@ -41,12 +40,12 @@ async function connectDb() {
     console.warn("Missing MONGODB_URI in env, please add it to your .env file");
     process.exit(1);
   }
-  mongoose.set("debug", true);
   await mongoose.connect(process.env.MONGODB_URI);
   return mongoose.connection.db;
 }
 
 async function clearDb(dbConnection) {
+  await dbConnection.collection("comments").deleteMany({});
   await dbConnection.collection("users").deleteMany({});
   await dbConnection.collection("items").deleteMany({});
 }
@@ -57,11 +56,14 @@ async function disconnectDb() {
 
 async function seedEntities() {
   await Promise.all([
-    ...users.map((user) => {
+    ...generateEntities(createUserPayload, 100).map((user) => {
       return createUser(user.username, user.email, user.password);
     }),
-    ...items.map((item) => {
+    ...generateEntities(createItemPayload, 100).map((item) => {
       return Item.create(item);
+    }),
+    ...generateEntities(createCommentPayload, 100).map((comment) => {
+      return Comment.create(comment);
     }),
   ]);
 }
